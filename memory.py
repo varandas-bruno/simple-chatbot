@@ -11,6 +11,7 @@ class MessageMemory():
         
         
     def add_messages(self, role: str, message: str):
+        '''Adds a message to the memory buffer with the specified role and content.'''
         
         self.buffer.append({
             "role":role,
@@ -19,11 +20,12 @@ class MessageMemory():
         
     
     def show_messages(self):
-        
+        '''Returns the current messages stored in the memory buffer.'''
         return self.buffer
     
     
     def summarize_and_reset_conversation(self):
+        '''Summarizes the conversation history and resets the memory buffer.'''
         
         prompt = '''
         Summarize the conversation given to initiate a new context window.
@@ -42,7 +44,8 @@ class MessageMemory():
             # Calls LLM to summarize the entire conversation history
             response = self.client.messages.create(
                 model="claude-haiku-4-5",
-                messages=temp_buffer
+                messages=temp_buffer,
+                max_tokens=200
             )
             
             summary = response.content[0].text
